@@ -1,6 +1,8 @@
 defmodule Rockelivery do
   alias Rockelivery.Users.Create, as: UserCreate
   alias Rockelivery.Users.Get, as: UserGet
+  alias Rockelivery.Users.Delete, as: UserDelete
+
 
   @moduledoc """
   Rockelivery keeps the contexts that define your domain
@@ -12,4 +14,6 @@ defmodule Rockelivery do
 
   defdelegate create_user(params), to: UserCreate, as: :call
   defdelegate get_user(params), to: UserGet, as: :by_id
+  defdelegate delete_user(params), to: UserDelete, as: :call
+
 end
