@@ -4,6 +4,8 @@ defmodule Rockelivery.User do
   import Ecto.Changeset
 
   @require_params [:age, :address, :cep, :cpf, :email, :password, :name]
+  @require_update_params [:age, :address, :cep, :cpf, :email, :name]
+
   @primary_key {:id, :binary_id, autogenerate: true}
 
   @derive {Jason.Encoder, only: [:id, :age, :email, :name]}
@@ -24,6 +26,15 @@ defmodule Rockelivery.User do
     %__MODULE__{}
       |> cast(params, @require_params)
       |> validate_required(@require_params)
+      |> unique_constraint([:email])
+      |> unique_constraint([:cpf])
+      |> put_password_hash()
+  end
+
+  def changeset(struct, params) do
+    struct
+      |> cast(params, @require_update_params)
+      |> validate_required(@require_update_params)
       |> unique_constraint([:email])
       |> unique_constraint([:cpf])
       |> put_password_hash()
