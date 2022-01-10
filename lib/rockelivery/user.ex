@@ -26,6 +26,7 @@ defmodule Rockelivery.User do
     %__MODULE__{}
       |> cast(params, @require_params)
       |> validate_required(@require_params)
+      |> validate_number(:age, greater_than_or_equal_to: 18)
       |> unique_constraint([:email])
       |> unique_constraint([:cpf])
       |> put_password_hash()
@@ -43,4 +44,6 @@ defmodule Rockelivery.User do
   defp put_password_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
     change(changeset, Pbkdf2.add_hash(password))
   end
+
+  defp put_password_hash(changeset), do: changeset
 end
